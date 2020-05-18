@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import "./loginPage.less"
-import { registerUser , loginUser } from '../../../api/api'
-// import { connect } from 'react-redux'
-// import { loginUser, registerUser } from '@/actions/purple'
+import { connect } from 'react-redux'
+import { loginUser, registerUser } from '@/actions/purple'
 
-// export default @connect(state => ({}), {
-//     loginUser,
-//     registerUser,
-// })
+export default @connect(state => ({}), {
+    loginUser,
+    registerUser,
+})
+
 class loginPage extends Component {
     constructor(){
         super()
@@ -29,16 +29,16 @@ class loginPage extends Component {
         if (!logPwd || !logUsername) { //未输入完全
             alert("输入完再点那个按钮行不行？")
         } else { // 基本输入没有问题，可以进行正常请求
-            loginUser({
+            this.props.loginUser({
                 username:logUsername,
                 pwd:logPwd
             }).then( res =>{
                 //如果登录不成功，给予提示信息
-                if (res.data.status !== "200") {
-                    alert(res.data.message)
+                if (res.payload.status !== "200") {
+                    alert(res.payload.message)
                 }
                 //成功则进入主界面 并上传redux用户信息 
-                else if (res.data.status === "200") {
+                else if (res.payload.status === "200") {
                     this.props.history.push('/purple')
                 }
             })
@@ -59,19 +59,19 @@ class loginPage extends Component {
                 messageState:"denger"
             })
         } else { // 基本输入没有问题，可以进行正常请求
-            registerUser({
+            this.props.registerUser({
                 username:regUsername,
                 pwd:regPwd
             }).then( res =>{
                 //如果注册不成功，给予提示信息
-                if (res.data.status !== "200") {
+                if (res.payload.status !== "200") {
                     this.setState({
-                        message:res.data.info,
+                        message:res.payload.info,
                         messageState:"denger"
                     })
                 }
                 //成功则进入登录界面 并填写刚刚注册用户名 
-                else if (res.data.status === "200") {
+                else if (res.payload.status === "200") {
                     this.setState({pageState:"SignIn",logUsername:regUsername})
                     this.props.history.push('/login/SignIn')
                 }
@@ -92,8 +92,6 @@ class loginPage extends Component {
     componentDidMount(){
         //获取动态路由参数
         this.setState({pageState:this.props.match.params.state})
-        // let _this = this
-        // this.props.loginUser({username:"1",pwd:"1"}).then(res=>{console.log(res,_this)})
     }
     render() {
         const { pageState , message , messageState } = this.state
@@ -146,4 +144,4 @@ class loginPage extends Component {
         );
     }
 }
-export default loginPage
+// export default loginPage

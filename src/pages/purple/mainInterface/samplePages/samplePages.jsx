@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Pagination } from 'antd';
-import { listWithPage } from '../../../../api/api'
 import './samplePages.less'
+import { connect } from 'react-redux'
+import { listWithPage } from '@/actions/purple'
+
+export default @connect(state => ({}), {
+    listWithPage
+})
 
 class samplePages extends Component {
     state = {
@@ -11,18 +16,17 @@ class samplePages extends Component {
         this.setState({
             current: page
         });
-        listWithPage({
+        this.props.listWithPage({
             page:page,
             limit:6
         }).then(res=>{
-            console.log(res)
             this.setState({
-                data: res.data.result.list
+                data: res.payload.result.list
             });
         })
     }
     componentDidMount(){
-        listWithPage({
+        this.props.listWithPage({
             page:1,
             limit:6
         }).then(res=>{
@@ -60,5 +64,3 @@ class samplePages extends Component {
         );
     }
 }
-
-export default samplePages;

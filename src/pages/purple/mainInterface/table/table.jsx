@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Table , Progress } from 'antd'
-import { findUser } from '../../../../api/api'
+import { connect } from 'react-redux'
+import { findUser } from '@/actions/purple'
+
+export default @connect(state => ({}), {
+  findUser
+})
 
 class table extends Component {
     state = {
@@ -47,10 +52,9 @@ class table extends Component {
         dataSource : []
     }
     componentDidMount(){
-        findUser().then(res=>{
-            console.log(res)
+        this.props.findUser().then(res=>{
             this.setState({
-                dataSource:res.data.users
+                dataSource:res.payload.users
             })
         })
     }
@@ -63,5 +67,3 @@ class table extends Component {
         );
     }
 }
-
-export default table;

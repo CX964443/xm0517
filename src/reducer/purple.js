@@ -6,12 +6,21 @@ const defaultState = {
 export default function (state = defaultState, action) {
     switch (action.type) {
         case 'LOGINUSER':
-            console.log(action)
         return { ...state }
         
+        case 'REGISTERUSER':
+        return { ...state }
+
+        case 'ADD':
+        return { ...state }
+        
+        case 'LISWITHPAGE':
+        return { ...state }
+        
+        case 'FINDUSER':
+        return { ...state }
+
         default:
         return state
     }
 }
-
-  
